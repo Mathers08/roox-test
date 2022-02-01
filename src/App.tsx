@@ -1,12 +1,14 @@
 import React from 'react';
 import './App.scss';
-import {UsersList} from "./components";
+import {UserProfile, UsersList} from "./components";
+import {Route, Routes} from "react-router-dom";
 
 const App = () => {
   return (
-    <div>
-      <UsersList/>
-    </div>
+    <Routes>
+      <Route path='/' element={<UsersList/>}/>
+      <Route path='/profile' element={<UserProfile/>}/>
+    </Routes>
   );
 }
 

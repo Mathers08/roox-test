@@ -1,12 +1,13 @@
 import React from 'react';
-import spinner from '../assets/spinner.gif';
+// @ts-ignore
+import loader from '../assets/loader.gif';
 
-const Spinner = () => {
+const Loader = () => {
   return (
     <section>
-      <img className="text-center mx-auto mt-32" src={spinner} alt=""/>
+      <img src={loader} alt=""/>
     </section>
-);
+  );
 };
 
-export default Spinner;
+export default Loader;

@@ -1,12 +1,26 @@
-import React from 'react';
+import React, {FC} from 'react';
 import './UsersList.scss';
+import {IUser} from "../../types/user";
 
-const Sort = () => {
+interface SortProps {
+  users: IUser[];
+  setUsers: any;
+}
+
+const Sort: FC<SortProps> = ({users, setUsers}) => {
+  const sortByAddress = () => {
+    setUsers([...users].sort((a, b) => (a.address.city > b.address.city) ? 1 : -1));
+  }
+
+  const sortByCompany = () => {
+    setUsers([...users].sort((a, b) => (a.company.name > b.company.name) ? 1 : -1));
+  }
+
   return (
     <div className="sort">
       <p>Сортировка</p>
-      <button className='btn'>по городу</button>
-      <button className='btn'>по компании</button>
+      <button onClick={sortByAddress} className='btn'>по городу</button>
+      <button onClick={sortByCompany} className='btn'>по компании</button>
     </div>
   );
 };

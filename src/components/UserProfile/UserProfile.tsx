@@ -1,9 +1,13 @@
 import React from 'react';
+import Sort from "../UsersList/Sort";
 
 const UserProfile = () => {
   return (
-    <div>
-      
+    <div className='container'>
+      <Sort users={[]} setUsers={null}/>
+      <div className="list">
+        <h3>Профиль пользователя</h3>
+      </div>
     </div>
   );
 };
