@@ -1,0 +1,50 @@
+@import '../../App.scss';
+
+.container {
+  margin: 0 auto;
+  width: 665px;
+  min-height: 1028px;
+  display: flex;
+  .sort {
+    background-color: #bdbdbd;
+    flex-basis: 25%;
+    padding: 25px 0 0 20px;
+    p {
+      padding: 10px 0;
+    }
+    .btn {
+      @include button($blue);
+      margin-bottom: 10px;
+    }
+  }
+  .list {
+    flex-basis: 75%;
+    padding: 20px 30px;
+    h3 {
+      padding-bottom: 20px;
+    }
+    .listItem {
+      background-color: $light-color;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      .userInfo {
+        display: flex;
+        padding-top: 5px;
+        p {
+          color: $light-grey;
+        }
+        span {
+          padding-left: 5px;
+        }
+      }
+    }
+    p {
+      color: $blue;
+      padding-bottom: 5px;
+      align-self: self-end;
+    }
+  }
+}
