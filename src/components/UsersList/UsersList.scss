@@ -2,8 +2,7 @@
 
 .container {
   margin: 0 auto;
-  width: 665px;
-  min-height: 1028px;
+  width: 800px;
   display: flex;
 
   .sort {
@@ -25,15 +24,11 @@
     flex-basis: 75%;
     padding: 20px 30px;
 
-    h3 {
-      padding-bottom: 20px;
-    }
-
     .listItem {
       background-color: $light-color;
       border-radius: 8px;
       padding: 10px;
-      margin-bottom: 24px;
+      margin: 20px 0;
       display: flex;
       justify-content: space-between;
 

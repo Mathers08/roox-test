@@ -25,10 +25,10 @@ const ListItem: FC<ListItemProps> = ({users, isLoading}) => {
             </div>
             <div className='userInfo'>
               <p>компания: </p>
-              <span>{user.company.name}</span>
+              <span>{user.company?.name}</span>
             </div>
           </div>
-          <Link to='/profile'>Подробнее</Link>
+          <Link to={`/profile/${user.id}`}>Подробнее</Link>
         </div>
       ))}
       <div className='countInfo'>Найдено {users.length} пользователей</div>

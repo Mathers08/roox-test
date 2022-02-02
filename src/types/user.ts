@@ -1,14 +1,20 @@
-interface IAddress {
+export interface IAddress {
+  street: string;
   city: string;
+  zipcode: number;
 }
-interface ICompany {
+
+export interface ICompany {
   name: string;
 }
 
 export interface IUser {
-  id: number;
+  id?: number;
   name: string;
-  city: string;
+  username: string;
+  email: string;
+  phone: number;
+  website: string;
   address: IAddress;
-  company: ICompany;
+  company?: ICompany;
 }

@@ -13,7 +13,7 @@ const Sort: FC<SortProps> = ({users, setUsers}) => {
   }
 
   const sortByCompany = () => {
-    setUsers([...users].sort((a, b) => (a.company.name > b.company.name) ? 1 : -1));
+    setUsers([...users].sort((a, b) => (a.company!.name > b.company!.name) ? 1 : -1));
   }
 
   return (

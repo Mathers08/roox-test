@@ -1,0 +1,49 @@
+@import '../../App.scss';
+
+.listHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .btn {
+    @include button($blue);
+  }
+}
+
+.form {
+  margin: 15px 0;
+  width: 540px;
+  border-radius: 8px;
+  border: 3px solid $light-color;
+
+  .formItem {
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px;
+    margin: 10px 0;
+
+    input {
+      margin: 5px 0;
+      width: 245px;
+      height: 28px;
+      border-radius: 5px;
+      border: 3px solid $light-color;
+      padding-left: 10px;
+    }
+
+    textarea {
+      margin: 5px 0;
+      padding: 5px;
+      height: 65px;
+      resize: none;
+      border-radius: 5px;
+      border: 3px solid $light-color;
+    }
+  }
+
+  .btn {
+    @include button($light-grey);
+    margin-top: 20px;
+    float: right;
+  }
+}
