@@ -24,3 +24,10 @@ $light-color: #F3F3F3;
   color: $white;
   border: none;
 }
+
+.container {
+  margin: 0 auto;
+  width: 800px;
+  min-height: 100vh;
+  display: flex;
+}

@@ -22,6 +22,12 @@
     padding: 0 15px;
     margin: 10px 0;
 
+    .inputRead {
+      color: $light-grey;
+    }
+    .inputEdit {
+      color: $black;
+    }
     input {
       margin: 5px 0;
       width: 245px;
@@ -41,9 +47,16 @@
     }
   }
 
-  .btn {
-    @include button($light-grey);
+  .btn, .btn-success {
     margin-top: 20px;
     float: right;
+  }
+
+  .btn {
+    @include button($light-grey);
+  }
+
+  .btn-success {
+    @include button($green);
   }
 }

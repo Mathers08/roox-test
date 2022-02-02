@@ -1,12 +1,8 @@
 @import '../../App.scss';
 
-.container {
-  margin: 0 auto;
-  width: 800px;
-  display: flex;
 
-  .sort {
-    background-color: #bdbdbd;
+  .sortBlock {
+    background-color: $grey;
     flex-basis: 25%;
     padding: 25px 0 0 20px;
 
@@ -57,4 +53,3 @@
   .countInfo {
     float: right;
   }
-}
