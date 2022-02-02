@@ -1,110 +1,105 @@
 import React, {useEffect, useState} from 'react';
-import Sort from "../UsersList/Sort";
+import axios from 'axios';
+import {useParams} from 'react-router-dom';
+import {IUser} from '../../types/user';
+import FormInput from './FormInput';
 import './UserProfile.scss';
-import FormInput from "./FormInput";
-import axios from "axios";
-import {useParams} from "react-router-dom";
-import {IUser} from "../../types/user";
+
+const initialUser = {
+  name: '',
+  username: '',
+  email: '',
+  address: {
+    street: '',
+    city: '',
+    zipcode: 0,
+  },
+  phone: 0,
+  website: '',
+}
 
 const UserProfile = () => {
-  const [user, setUser] = useState<IUser>({
-    name: '',
-    username: '',
-    email: '',
-    address: {
-      street: '',
-      city: '',
-      zipcode: 0,
-    },
-    phone: 0,
-    website: '',
-  });
+  const [user, setUser] = useState<IUser>(initialUser);
+  const [readOnly, setReadOnly] = useState<boolean>(true);
+  const onReadOnlyClick = () => setReadOnly(false);
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => e.target.value;
+  const onSendRequest = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!readOnly) {
+      console.log(user);
+    }
+  }
   const {id} = useParams();
 
-  const templates = {
-    template1: {
-      items: ['name', 'username', 'email', 'address.street', 'address.city', 'address.zipcode', 'phone', 'website']
+  const templates = [
+    {
+      label: 'Name',
+      value: user.name,
     },
-    template2: {
-      items: ['Name', 'User name', 'E-mail', 'Street', 'City', 'Zip code', 'Phone', 'Website']
+    {
+      label: 'User name',
+      value: user.username,
     },
-  };
+    {
+      label: 'E-mail',
+      value: user.email,
+    },
+    {
+      label: 'Street',
+      value: user.address.street,
+    },
+    {
+      label: 'City',
+      value: user.address.city,
+    },
+    {
+      label: 'Zip code',
+      value: user.address.zipcode,
+    },
+    {
+      label: 'Phone',
+      value: user.phone,
+    },
+    {
+      label: 'Website',
+      value: user.website,
+    },
+  ];
 
   useEffect(() => {
     const fetchedItems = async () => {
-      await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)
-        .then(({data}) => {
-          setUser(data);
-          console.log(data)
-        });
+      const {data: users} = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`);
+      setUser(users);
     }
     fetchedItems();
   }, [id]);
 
   return (
-    <div className='container'>
-      <Sort users={[]} setUsers={null}/>
-      <div className="list">
-        <div className='listHeader'>
-          <h3>Профиль пользователя</h3>
-          <button className="btn">Редактировать</button>
-        </div>
-        <form className='form'>
-          <FormInput
-            type='text'
-            label="Name"
-            value={user.name}
-            onChange={handleFormChange}/>
-          <FormInput
-            type='text'
-            label="User name"
-            value={user.username}
-            onChange={handleFormChange}/>
-          <FormInput
-            type='text'
-            label="E-mail"
-            value={user.email}
-            onChange={handleFormChange}/>
-          <FormInput
-            type='text'
-            label="Street"
-            value={user.address.street}
-            onChange={handleFormChange}/>
-          <FormInput
-            type='text'
-            label="City"
-            value={user.address.city}
-            onChange={handleFormChange}/>
-          <FormInput
-            type='text'
-            label="Zip code"
-            value={user.address.zipcode}
-            onChange={handleFormChange}/>
-          <FormInput
-            type='text'
-            label="Phone"
-            value={user.phone}
-            onChange={handleFormChange}/>
-          <FormInput
-            type='text'
-            label="Website"
-            value={user.website}
-            onChange={handleFormChange}/>
-          <FormInput
-            type='textarea'
-            label="Comment"
-            value=''
-            onChange={handleFormChange}/>
-          <button className='btn'>Отправить</button>
-        </form>
-        {Object.keys(templates).map(template => (
-          <div>
-          </div>
-        ))}
+    <div className="list">
+      <div className="listHeader">
+        <h3>Профиль пользователя</h3>
+        <button className="btn" onClick={onReadOnlyClick}>Редактировать</button>
       </div>
+      <form onSubmit={onSendRequest} className="form">
+        {templates.map(template => (
+          <FormInput
+            type="text"
+            readonly={readOnly}
+            label={template.label}
+            value={template.value}
+            onChange={handleFormChange}
+          />
+        ))}
+        <FormInput
+          type="textarea"
+          label='Comment'
+          value=''
+          onChange={handleFormChange}
+        />
+        <button className={readOnly ? 'btn' : 'btn-success'}>Отправить</button>
+      </form>
     </div>
-  );
-};
+  )
+}
 
 export default UserProfile;

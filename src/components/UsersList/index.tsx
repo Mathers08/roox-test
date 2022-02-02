@@ -1,31 +1,24 @@
-import React, {FC, useEffect, useState} from 'react';
-import './UsersList.scss';
-import Sort from "./Sort";
-import ListItem from "./ListItem";
-import {IUser} from "../../types/user";
-import axios from "axios";
+import React, {FC} from 'react'
+import {IUser} from '../../types/user'
+import Loader from '../Loader'
+import UserItem from './UserItem'
+import './UsersList.scss'
 
-const UsersList: FC = () => {
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+interface UsersListProps {
+  users: IUser[];
+  isLoading: boolean;
+}
 
-  useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/users')
-      .then(({data}) => {
-        setUsers(data);
-        setIsLoading(false);
-      });
-  }, []);
-
+const UsersList: FC<UsersListProps> = ({users, isLoading}) => {
   return (
-    <div className='container'>
-      <Sort users={users} setUsers={setUsers}/>
-      <div className="list">
-        <h3>Список пользователей</h3>
-        <ListItem users={users} isLoading={isLoading}/>
-      </div>
+    <div className="list">
+      <h3>Список пользователей</h3>
+      {isLoading ? <Loader/> : users.map((user) => (
+        <UserItem user={user}/>
+      ))}
+      <div className="countInfo">Найдено {users.length} пользователей</div>
     </div>
-  );
-};
+  )
+}
 
-export default UsersList;
+export default UsersList
