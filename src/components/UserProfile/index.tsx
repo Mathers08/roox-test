@@ -1,104 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import axios from 'axios';
 import {useParams} from 'react-router-dom';
 import {IUser} from '../../types/user';
-import FormInput from './FormInput';
 import './UserProfile.scss';
+import FormItem from "./FormItem";
 
-const initialUser = {
-  name: '',
-  username: '',
-  email: '',
-  address: {
-    street: '',
-    city: '',
-    zipcode: 0,
-  },
-  phone: 0,
-  website: '',
+interface UserProfileProps {
+  users: IUser[];
 }
 
-const UserProfile = () => {
-  const [user, setUser] = useState<IUser>(initialUser);
+const UserProfile: FC<UserProfileProps> = ({users}) => {
   const [readOnly, setReadOnly] = useState<boolean>(true);
-  const onReadOnlyClick = () => setReadOnly(false);
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => e.target.value;
-  const onSendRequest = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!readOnly) {
-      console.log(user);
-    }
-  }
-  const {id} = useParams();
 
-  const templates = [
-    {
-      label: 'Name',
-      value: user.name,
-    },
-    {
-      label: 'User name',
-      value: user.username,
-    },
-    {
-      label: 'E-mail',
-      value: user.email,
-    },
-    {
-      label: 'Street',
-      value: user.address.street,
-    },
-    {
-      label: 'City',
-      value: user.address.city,
-    },
-    {
-      label: 'Zip code',
-      value: user.address.zipcode,
-    },
-    {
-      label: 'Phone',
-      value: user.phone,
-    },
-    {
-      label: 'Website',
-      value: user.website,
-    },
-  ];
-
-  useEffect(() => {
-    const fetchedItems = async () => {
-      const {data: users} = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`);
-      setUser(users);
-    }
-    fetchedItems();
-  }, [id]);
+  const handleEditClick = () => setReadOnly(!readOnly);
 
   return (
-    <div className="list">
+    <>
       <div className="listHeader">
         <h3>Профиль пользователя</h3>
-        <button className="btn" onClick={onReadOnlyClick}>Редактировать</button>
+        <button className="btn" onClick={handleEditClick}>Редактировать</button>
       </div>
-      <form onSubmit={onSendRequest} className="form">
-        {templates.map(template => (
-          <FormInput
-            type="text"
-            readonly={readOnly}
-            label={template.label}
-            value={template.value}
-            onChange={handleFormChange}
-          />
-        ))}
-        <FormInput
-          type="textarea"
-          label='Comment'
-          value=''
-          onChange={handleFormChange}
-        />
-        <button className={readOnly ? 'btn' : 'btn-success'}>Отправить</button>
-      </form>
-    </div>
+      <FormItem readOnly={readOnly} setReadOnly={setReadOnly}/>
+    </>
   )
 }
 

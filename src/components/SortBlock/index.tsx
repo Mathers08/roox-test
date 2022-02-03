@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import './UsersList.scss';
+import './SortBlock.scss';
 
 interface SortProps {
   sortUsersByAddress: () => void;

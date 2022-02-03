@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {Route, Routes,} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import './App.scss';
 import {UserProfile, UsersList} from './components';
-import SortBlock from './components/UsersList/SortBlock';
+import SortBlock from './components/SortBlock';
 import {IUser} from './types/user';
 
 const App = () => {
@@ -30,10 +30,12 @@ const App = () => {
   return (
     <div className='container'>
       <SortBlock sortUsersByAddress={sortUsersByAddress} sortUsersByCompany={sortUsersByCompany}/>
-      <Routes>
-        <Route path="/" element={<UsersList users={users} isLoading={isLoading}/>}/>
-        <Route path="/profile/:id" element={<UserProfile/>}/>
-      </Routes>
+      <div className="list">
+        <Routes>
+          <Route path="/" element={<UsersList users={users} isLoading={isLoading}/>}/>
+          <Route path="/profile/:id" element={<UserProfile users={users}/>}/>
+        </Routes>
+      </div>
     </div>
   )
 }

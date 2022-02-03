@@ -1,7 +1,7 @@
 export interface IAddress {
   street: string;
   city: string;
-  zipcode: number;
+  zipcode: number | string;
 }
 
 export interface ICompany {
@@ -9,12 +9,13 @@ export interface ICompany {
 }
 
 export interface IUser {
-  id?: number;
+  id?: number | string;
   name: string;
   username: string;
   email: string;
-  phone: number;
+  phone: number | string;
   website: string;
   address: IAddress;
   company?: ICompany;
+  comment?: string;
 }
