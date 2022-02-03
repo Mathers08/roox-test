@@ -1,8 +1,8 @@
-import React, {FC} from 'react'
-import {IUser} from '../../types/user'
-import Loader from '../Loader'
-import UserItem from './UserItem'
-import './UsersList.scss'
+import React, {FC} from 'react';
+import {IUser} from '../../types/user';
+import Loader from '../Loader';
+import UserItem from './UserItem';
+import './UsersList.scss';
 
 interface UsersListProps {
   users: IUser[];
@@ -11,14 +11,14 @@ interface UsersListProps {
 
 const UsersList: FC<UsersListProps> = ({users, isLoading}) => {
   return (
-    <div className="list">
+    <>
       <h3>Список пользователей</h3>
       {isLoading ? <Loader/> : users.map((user) => (
         <UserItem user={user}/>
       ))}
       <div className="countInfo">Найдено {users.length} пользователей</div>
-    </div>
+    </>
   )
 }
 
-export default UsersList
+export default UsersList;
