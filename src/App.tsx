@@ -4,11 +4,11 @@ import {Route, Routes} from 'react-router-dom';
 import './App.scss';
 import {UserProfile, UsersList} from './components';
 import SortBlock from './components/SortBlock';
-import {IUser} from './types/user';
+import {IUser} from './types/IUser';
 
 const App = () => {
   const [users, setUsers] = useState<IUser[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchedItems = async () => {
@@ -33,7 +33,7 @@ const App = () => {
       <div className="list">
         <Routes>
           <Route path="/" element={<UsersList users={users} isLoading={isLoading}/>}/>
-          <Route path="/profile/:id" element={<UserProfile users={users}/>}/>
+          <Route path="/profile/:id" element={<UserProfile/>}/>
         </Routes>
       </div>
     </div>

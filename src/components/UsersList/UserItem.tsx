@@ -1,7 +1,7 @@
-import React, { FC } from 'react'
-import { Link } from 'react-router-dom'
-import { IUser } from '../../types/user'
-import './UsersList.scss'
+import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
+import { IUser } from '../../types/IUser';
+import './UsersList.scss';
 
 interface ListItemProps {
   user: IUser;
@@ -9,7 +9,7 @@ interface ListItemProps {
 
 const UserItem: FC<ListItemProps> = ({ user }) => {
   return (
-    <div key={user.id} className="listItem">
+    <div className="listItem">
       <div className="userBlock">
         <div className="userInfo">
           <p>ФИО: </p>
@@ -29,4 +29,4 @@ const UserItem: FC<ListItemProps> = ({ user }) => {
   )
 }
 
-export default UserItem
+export default UserItem;

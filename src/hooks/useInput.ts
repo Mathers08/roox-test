@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {IUser} from "../types/user";
+import {IUser} from "../types/IUser";
 
 const initialUser = {
   name: '',
@@ -23,6 +23,11 @@ const useInput = () => {
       ...values,
       [name]: value
     });
+
+    const nestedName = e.target.getAttribute('data-nested-name');
+    const newValues: { [k: string]: any } | null = {...values};
+    nestedName ? newValues[name][nestedName] = value : newValues[name] = value;
+    setValues(newValues as IUser);
   }
 
   return {

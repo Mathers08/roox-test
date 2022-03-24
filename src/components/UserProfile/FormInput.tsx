@@ -1,59 +1,61 @@
 import React, {FC, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import useInput from '../../hooks/useInput';
-import {IUser} from "../../types/user";
+import axios from "axios";
 
 interface FormItemProps {
   readOnly: boolean;
   setReadOnly: (readonly: boolean) => void;
-  getUserById: (id: number) => IUser;
 }
 
-const FormInput: FC<FormItemProps> = ({readOnly, setReadOnly, getUserById}) => {
+const FormInput: FC<FormItemProps> = ({readOnly, setReadOnly}) => {
   const {id} = useParams();
   const navigate = useNavigate();
+  const [comment, setComment] = useState('');
   const {values, setValues, handleChange} = useInput();
-  const [comment, setComment] = useState<string>('');
   const templates = [
     {
       name: 'name',
       label: 'Name',
-      value: values?.name,
+      value: values.name
     },
     {
       name: 'username',
       label: 'User name',
-      value: values?.username,
+      value: values.username,
     },
     {
       name: 'email',
       label: 'E-mail',
-      value: values?.email,
+      value: values.email,
     },
     {
-      name: 'street',
+      name: 'address',
       label: 'Street',
-      value: values?.address.street,
+      value: values.address.street,
+      'data-nested-name': 'street',
     },
     {
-      name: 'city',
+      name: 'address',
       label: 'City',
-      value: values?.address.city,
+      value: values.address.city,
+      'data-nested-name': 'city',
     },
     {
-      name: 'zipcode',
+      name: 'address',
       label: 'Zip code',
-      value: values?.address.zipcode,
+      value: values.address.zipcode,
+      'data-nested-name': 'zipcode',
     },
     {
       name: 'phone',
       label: 'Phone',
-      value: values?.phone,
+      value: values.phone,
     },
     {
       name: 'website',
       label: 'Website',
-      value: values?.website,
+      value: values.website,
     },
   ];
   const hasEmptyFields = templates.map(template => template.value).some((val: any) => !val);
@@ -64,20 +66,25 @@ const FormInput: FC<FormItemProps> = ({readOnly, setReadOnly, getUserById}) => {
     if (!hasEmptyFields) {
       if (!readOnly) {
         console.log({...values, comment});
-        //navigate('/');
+        navigate('/');
       }
       setReadOnly(true);
     }
   }
+
   useEffect(() => {
-    setValues(getUserById(Number(id)));
-  }, [id]);
+    const fetchedItems = async () => {
+      const {data: user} = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`);
+      setValues(user);
+    }
+    fetchedItems();
+  }, [id, setValues]);
 
   return (
     <form onSubmit={handleFormSubmit} className="form">
       {templates.map(template => (
         <div className='formItem' key={template.label}>
-          <label htmlFor="">{template.label}</label>
+          <label>{template.label}</label>
           <input
             type="text"
             name={template.name}
@@ -85,11 +92,12 @@ const FormInput: FC<FormItemProps> = ({readOnly, setReadOnly, getUserById}) => {
             readOnly={readOnly}
             value={template.value}
             onChange={handleChange}
+            data-nested-name={'data-nested-name' in template && template['data-nested-name']}
           />
         </div>
       ))}
       <div className="formItem">
-        <label htmlFor="">Comment</label>
+        <label>Comment</label>
         <textarea
           readOnly={readOnly}
           value={comment}
