@@ -1,14 +1,15 @@
 import React, {FC, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-import axios from "axios";
 import useInput from '../../hooks/useInput';
+import {IUser} from "../../types/user";
 
 interface FormItemProps {
   readOnly: boolean;
   setReadOnly: (readonly: boolean) => void;
+  getUserById: (id: number) => IUser;
 }
 
-const FormInput: FC<FormItemProps> = ({readOnly, setReadOnly}) => {
+const FormInput: FC<FormItemProps> = ({readOnly, setReadOnly, getUserById}) => {
   const {id} = useParams();
   const navigate = useNavigate();
   const {values, setValues, handleChange} = useInput();
@@ -17,46 +18,45 @@ const FormInput: FC<FormItemProps> = ({readOnly, setReadOnly}) => {
     {
       name: 'name',
       label: 'Name',
-      value: values.name,
+      value: values?.name,
     },
     {
       name: 'username',
       label: 'User name',
-      value: values.username,
+      value: values?.username,
     },
     {
       name: 'email',
       label: 'E-mail',
-      value: values.email,
+      value: values?.email,
     },
     {
-      name: 'address.street',
+      name: 'street',
       label: 'Street',
-      value: values.address.street,
+      value: values?.address.street,
     },
     {
-      name: 'address.city',
+      name: 'city',
       label: 'City',
-      value: values.address.city,
+      value: values?.address.city,
     },
     {
-      name: 'address.zipcode',
+      name: 'zipcode',
       label: 'Zip code',
-      value: values.address.zipcode,
+      value: values?.address.zipcode,
     },
     {
       name: 'phone',
       label: 'Phone',
-      value: values.phone,
+      value: values?.phone,
     },
     {
       name: 'website',
       label: 'Website',
-      value: values.website,
+      value: values?.website,
     },
   ];
-  const template = templates.map(template => template.value);
-  const hasEmptyFields = Object.keys(template).some((val: any) => !template[val]);
+  const hasEmptyFields = templates.map(template => template.value).some((val: any) => !val);
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setComment(e.target.value);
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -64,18 +64,13 @@ const FormInput: FC<FormItemProps> = ({readOnly, setReadOnly}) => {
     if (!hasEmptyFields) {
       if (!readOnly) {
         console.log({...values, comment});
-        navigate('/');
+        //navigate('/');
       }
       setReadOnly(true);
     }
   }
-
   useEffect(() => {
-    const fetchedItems = async () => {
-      const {data: user} = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`);
-      setValues(user);
-    }
-    fetchedItems();
+    setValues(getUserById(Number(id)));
   }, [id]);
 
   return (

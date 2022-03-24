@@ -9,7 +9,7 @@ export interface ICompany {
 }
 
 export interface IUser {
-  id?: number | string;
+  id?: number;
   name: string;
   username: string;
   email: string;
